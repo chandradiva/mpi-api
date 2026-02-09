@@ -122,7 +122,7 @@ public class PatientServiceImpl implements PatientService {
                         .identifierType(obj.type())
                         .identifierValue(obj.value())
                         .issuingAuthority(obj.issuingAuthority())
-                        .verified(false)
+                        .verified(obj.verified())
                         .build();
 
                 patientIdentifierRepo.save(identifier);
@@ -132,12 +132,14 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     public void createSourceRecord(Patient patient, PatientRequest incoming, SourceSystem sourceSystem) {
+        ObjectMapper mapper = new ObjectMapper();
+
         PatientSourceRecord record = PatientSourceRecord.builder()
                 .id(UUID.randomUUID())
                 .patient(patient)
                 .sourceSystem(sourceSystem)
                 .externalPatientId(incoming.externalPatientId())
-                .rawData("")
+                .rawData(mapper.writeValueAsString(incoming))
                 .receivedAt(LocalDateTime.now())
                 .build();
 
@@ -213,7 +215,67 @@ public class PatientServiceImpl implements PatientService {
         return null;
     }
 
-    public PatientResponse transformView(PatientView patientView, List<PatientIdentifier> patientIdentifiers) {
+    @Override
+    public void deletePatient(UUID id) {
+        Patient patient = findById(id);
+        if (patient != null) {
+            patient.setActive(false);
+            patient.setUpdatedAt(LocalDateTime.now());
+
+            patientRepo.save(patient);
+        }
+    }
+
+    @Override
+    public PatientResponse getDetailPatient(UUID id) {
+        PatientView patient = patientViewRepo.findById(id).orElse(null);
+        if (patient != null) {
+            List<PatientIdentifier> patientIdentifiers = patientIdentifierRepo.findByPatientId(id);
+            return transformView(patient, patientIdentifiers);
+        }
+
+        return null;
+    }
+
+    @Override
+    public void updatePatient(UUID id, PatientRequest request) {
+        Patient patient = findById(id);
+        if (patient == null) return;
+
+        if (request.identifiers() != null && !request.identifiers().isEmpty()) {
+            patientIdentifierRepo.deleteByPatientId(id);
+
+            for (PatientIdentifierRequest obj : request.identifiers()) {
+                PatientIdentifier identifier = PatientIdentifier.builder()
+                        .id(UUID.randomUUID())
+                        .patient(patient)
+                        .identifierType(obj.type())
+                        .identifierValue(obj.value())
+                        .issuingAuthority(obj.issuingAuthority())
+                        .verified(obj.verified())
+                        .build();
+
+                patientIdentifierRepo.save(identifier);
+            }
+        }
+
+        patient.setFirstName(request.firstName());
+        patient.setLastName(request.lastName());
+        patient.setDob(LocalDate.parse(request.dob(), formatter));
+        patient.setGender(request.gender());
+        patient.setPhoneNo(request.phoneNo());
+        patient.setEmail(request.email());
+        patient.setAddress(request.address());
+        patient.setSuburb(request.suburb());
+        patient.setState(request.state());
+        patient.setPostalCode(request.postalCode());
+        patient.setCountry(request.country());
+        patient.setUpdatedAt(LocalDateTime.now());
+
+        patientRepo.save(patient);
+    }
+
+    private PatientResponse transformView(PatientView patientView, List<PatientIdentifier> patientIdentifiers) {
         PatientResponse res = null;
 
         try {

@@ -15,6 +15,7 @@ public interface PatientViewRepository extends JpaRepository<PatientView, UUID> 
             SELECT pv FROM PatientView pv
             LEFT JOIN PatientIdentifier pi ON pv.id = pi.patientId
             WHERE
+                pv.active = true AND
                 (:linkStatus IS NULL OR pv.linkStatus = :linkStatus) AND
                 (
                     :keyword IS NULL OR

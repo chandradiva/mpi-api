@@ -34,4 +34,10 @@ public interface PatientService {
 
     PaginatedResponse<PatientResponse> getListPagination(PaginationRequest pageRequest, String keyword, String status);
 
+    void deletePatient(UUID id);
+
+    PatientResponse getDetailPatient(UUID id);
+
+    void updatePatient(UUID id, PatientRequest request);
+
 }

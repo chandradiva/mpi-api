@@ -62,6 +62,9 @@ public class PatientView {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    @Column(name = "is_active")
+    private boolean active;
+
     @Column(name = "link_status")
     private String linkStatus;
 

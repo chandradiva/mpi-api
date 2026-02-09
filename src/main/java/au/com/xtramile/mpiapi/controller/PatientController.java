@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api/patients")
 public class PatientController {
@@ -41,8 +43,7 @@ public class PatientController {
                             .code(CommonCons.RES_SUCCESS_CODE)
                             .message(CommonCons.RES_SUCCESS_MSG)
                             .data(res)
-                            .build()
-            );
+                            .build());
         } catch (Exception e) {
             return ResponseEntity.status(500)
                     .body(ApiResponseDto.error("500", "Error retrieving Master Type Data"));
@@ -58,7 +59,43 @@ public class PatientController {
                         .code(CommonCons.RES_SUCCESS_CODE)
                         .message(CommonCons.RES_SUCCESS_MSG)
                         .data(res)
-                        .build()
-        );
+                        .build());
     }
+
+    @GetMapping("{id}")
+    public ResponseEntity findById(@PathVariable UUID id) {
+        PatientResponse res = patientService.getDetailPatient(id);
+
+        return ResponseEntity.ok(
+                ApiResponseDto.builder()
+                        .code(CommonCons.RES_SUCCESS_CODE)
+                        .message(CommonCons.RES_SUCCESS_MSG)
+                        .data(res)
+                        .build());
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity updatePatient(@PathVariable UUID id, @RequestBody PatientRequest request) {
+        patientService.updatePatient(id, request);
+
+        return ResponseEntity.ok(
+                ApiResponseDto.builder()
+                        .code(CommonCons.RES_SUCCESS_CODE)
+                        .message(CommonCons.RES_SUCCESS_MSG)
+                        .data(null)
+                        .build());
+    }
+
+    @DeleteMapping
+    public ResponseEntity deletePatient(@RequestParam UUID id) {
+        patientService.deletePatient(id);
+
+        return ResponseEntity.ok(
+                ApiResponseDto.builder()
+                        .code(CommonCons.RES_SUCCESS_CODE)
+                        .message(CommonCons.RES_SUCCESS_MSG)
+                        .data(null)
+                        .build());
+    }
+
 }
