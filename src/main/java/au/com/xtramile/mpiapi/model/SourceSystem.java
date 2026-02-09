@@ -8,55 +8,27 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "patient", schema = "public")
+@Table(name = "source_system", schema = "public")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Patient {
+public class SourceSystem {
 
     @Id
     @Column(name = "id", unique = true)
     private UUID id;
 
-    @Column(name = "first_name")
-    private String firstName;
+    @Column(name = "system_name")
+    private String systemName;
 
-    @Column(name = "last_name")
-    private String lastName;
-
-    @Column(name = "date_of_birth")
-    private LocalDate dob;
-
-    @Column(name = "gender")
-    private String gender;
-
-    @Column(name = "phone_no")
-    private String phoneNo;
-
-    @Column(name = "address")
-    private String address;
-
-    @Column(name = "suburb")
-    private String suburb;
-
-    @Column(name = "state")
-    private String state;
-
-    @Column(name = "postal_code")
-    private String postalCode;
-
-    @Column(name = "country")
-    private String country;
-
-    @Column(name = "email")
-    private String email;
+    @Column(name = "system_code")
+    private String systemCode;
 
     @Column(name = "is_active")
     private boolean active;

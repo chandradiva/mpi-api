@@ -13,19 +13,19 @@ public interface PatientViewRepository extends JpaRepository<PatientView, UUID> 
 
     @Query("""
             SELECT pv FROM PatientView pv
-            LEFT JOIN PatientIdentifier pi ON pv.recordId = pi.recordId
+            LEFT JOIN PatientIdentifier pi ON pv.id = pi.patientId
             WHERE
-                (:status IS NULL OR pv.status = :status) AND
+                (:linkStatus IS NULL OR pv.linkStatus = :linkStatus) AND
                 (
                     :keyword IS NULL OR
-                    pv.firstNameNorm LIKE %:keyword% OR
-                    pv.lastNameNorm LIKE %:keyword% OR
-                    UPPER(pi.value) LIKE %:keyword%
+                    pv.firstName LIKE %:keyword% OR
+                    pv.lastName LIKE %:keyword% OR
+                    LOWER(pi.identifierValue) LIKE %:keyword%
                 )
             """)
     Page<PatientView> getListPageable(
             @Param("keyword") String keyword,
-            @Param("status") String status,
+            @Param("linkStatus") String linkStatus,
             Pageable pageable);
 
 }

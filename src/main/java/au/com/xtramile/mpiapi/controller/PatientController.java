@@ -5,6 +5,8 @@ import au.com.xtramile.mpiapi.dto.request.PatientRequest;
 import au.com.xtramile.mpiapi.dto.response.ApiResponseDto;
 import au.com.xtramile.mpiapi.dto.response.PaginatedResponse;
 import au.com.xtramile.mpiapi.dto.response.PatientResponse;
+import au.com.xtramile.mpiapi.dto.response.ProcessingResultResponse;
+import au.com.xtramile.mpiapi.service.MPIService;
 import au.com.xtramile.mpiapi.service.PatientService;
 import au.com.xtramile.mpiapi.util.CommonCons;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,9 @@ public class PatientController {
 
     @Autowired
     private PatientService patientService;
+
+    @Autowired
+    private MPIService mpiService;
 
     @GetMapping
     public ResponseEntity getList(
@@ -44,9 +49,9 @@ public class PatientController {
         }
     }
 
-    @PostMapping
-    public ResponseEntity createPatient(@RequestBody PatientRequest request) {
-        PatientResponse res = patientService.saveData(request);
+    @PostMapping("process")
+    public ResponseEntity processIncomingRequest(@RequestBody PatientRequest request) {
+        ProcessingResultResponse res = mpiService.processingIncomingPatient(request);
 
         return ResponseEntity.ok(
                 ApiResponseDto.builder()
@@ -56,5 +61,4 @@ public class PatientController {
                         .build()
         );
     }
-
 }

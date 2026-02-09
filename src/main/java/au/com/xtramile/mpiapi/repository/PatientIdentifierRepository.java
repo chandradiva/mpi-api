@@ -4,10 +4,13 @@ import au.com.xtramile.mpiapi.model.PatientIdentifier;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface PatientIdentifierRepository extends JpaRepository<PatientIdentifier, UUID> {
 
-    List<PatientIdentifier> findByRecordId(UUID recordId);
+    Optional<PatientIdentifier> findByIdentifierTypeAndIdentifierValue(String identifierType, String identifierValue);
+
+    List<PatientIdentifier> findByPatientId(UUID patientId);
 
 }

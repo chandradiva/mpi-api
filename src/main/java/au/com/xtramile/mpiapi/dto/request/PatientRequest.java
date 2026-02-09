@@ -9,14 +9,15 @@ public record PatientRequest(
         String lastName,
         String dob,
         String gender,
-        String phone,
+        String phoneNo,
         String email,
         String address,
         String suburb,
         String state,
-        String postcode,
-        String hospitalId,
-        String recordNumber,
+        String postalCode,
+        String country,
+        UUID sourceSystemId,
+        String externalPatientId,
         List<PatientIdentifierRequest> identifiers
 ) {
 }

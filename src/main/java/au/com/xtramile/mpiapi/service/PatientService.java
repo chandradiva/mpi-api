@@ -1,24 +1,37 @@
 package au.com.xtramile.mpiapi.service;
 
 import au.com.xtramile.mpiapi.dto.request.PaginationRequest;
+import au.com.xtramile.mpiapi.dto.request.PatientIdentifierRequest;
 import au.com.xtramile.mpiapi.dto.request.PatientRequest;
 import au.com.xtramile.mpiapi.dto.response.PaginatedResponse;
 import au.com.xtramile.mpiapi.dto.response.PatientResponse;
 import au.com.xtramile.mpiapi.model.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface PatientService {
 
-    PatientResponse saveData(PatientRequest request);
+    Optional<Patient> findExactMatchByStrongIdentifier(PatientRequest request);
 
-    PatientResponse updateData(UUID id, PatientRequest request);
+    boolean isStrongIdentifier(String type);
+
+    List<Patient> findCandidatesByDemographics(PatientRequest request);
+
+    Patient findById(UUID id);
+
+    void updatePatientIfNeeded(Patient existing, PatientRequest incoming);
+
+    void addIdentifiers(Patient patient, List<PatientIdentifierRequest> identifiers);
+
+    void createSourceRecord(Patient patient, PatientRequest incoming, SourceSystem sourceSystem);
+
+    PatientLink createPatientLink(Patient source, Patient target, String status, int score, Map<String, Boolean> fieldMatches);
+
+    Patient createNewPatient(PatientRequest request);
 
     PaginatedResponse<PatientResponse> getListPagination(PaginationRequest pageRequest, String keyword, String status);
-
-    PatientResponse transform(Patient patient, PatientDemographic patientDemographic, PatientRecord patientRecord, List<PatientIdentifier> patientIdentifiers);
-
-    PatientResponse transformView(PatientView patientView, List<PatientIdentifier> patientIdentifiers);
 
 }

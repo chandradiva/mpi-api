@@ -6,7 +6,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.*;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -24,67 +23,23 @@ public class PatientView {
     @Column(name = "id", unique = true)
     private UUID id;
 
-    @Column(name = "mpi_score")
-    private BigDecimal mpiScore;
-
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
-
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
-
-    @Column(name = "status")
-    private String status;
-
-    // patient record
-    @Column(name = "record_id")
-    private UUID recordId;
-
-    @Column(name = "hospital_id")
-    private String hospitalId;
-
-    @Column(name = "hospital_name")
-    private String hospitalName;
-
-    @Column(name = "record_number")
-    private String recordNumber;
-
-    @Column(name = "match_status")
-    private String matchStatus;
-
-    // patient demographic
-    @Column(name = "demographic_id")
-    private UUID demographicId;
-
     @Column(name = "first_name")
     private String firstName;
 
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "first_name_norm")
-    private String firstNameNorm;
-
-    @Column(name = "last_name_norm")
-    private String lastNameNorm;
-
-    @Column(name = "dob")
+    @Column(name = "date_of_birth")
     private LocalDate dob;
 
     @Column(name = "gender")
     private String gender;
 
-    @Column(name = "phone")
-    private String phone;
-
-    @Column(name = "phone_norm")
-    private String phoneNorm;
+    @Column(name = "phone_no")
+    private String phoneNo;
 
     @Column(name = "email")
     private String email;
-
-    @Column(name = "email_norm")
-    private String emailNorm;
 
     @Column(name = "address")
     private String address;
@@ -95,7 +50,40 @@ public class PatientView {
     @Column(name = "state")
     private String state;
 
-    @Column(name = "postcode")
-    private String postcode;
+    @Column(name = "postal_code")
+    private String postalCode;
+
+    @Column(name = "country")
+    private String country;
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
+    @Column(name = "link_status")
+    private String linkStatus;
+
+    @Column(name = "confidence_score")
+    private Integer confidenceScore;
+
+    @Column(name = "field_matches")
+    private String fieldMatches;
+
+    @Column(name = "external_patient_id")
+    private String externalPatientId;
+
+    @Column(name = "received_at")
+    private LocalDateTime receivedAt;
+
+    @Column(name = "system_id")
+    private UUID systemId;
+
+    @Column(name = "system_code")
+    private String systemCode;
+
+    @Column(name = "system_name")
+    private String systemName;
 
 }

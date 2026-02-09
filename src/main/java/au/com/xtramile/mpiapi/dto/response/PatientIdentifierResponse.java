@@ -14,5 +14,7 @@ public class PatientIdentifierResponse {
     private UUID id;
     private String type;
     private String value;
+    private String issuingAuthority;
+    private boolean verified;
 
 }
