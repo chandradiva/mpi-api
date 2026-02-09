@@ -5,7 +5,6 @@ import au.com.xtramile.mpiapi.dto.request.PatientIdentifierRequest;
 import au.com.xtramile.mpiapi.dto.request.PatientRequest;
 import au.com.xtramile.mpiapi.dto.response.ProcessingResultResponse;
 import au.com.xtramile.mpiapi.model.Patient;
-import au.com.xtramile.mpiapi.model.PatientLink;
 import au.com.xtramile.mpiapi.model.SourceSystem;
 import au.com.xtramile.mpiapi.repository.SourceSystemRepository;
 import au.com.xtramile.mpiapi.service.PatientMatchingService;
